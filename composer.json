@@ -1,0 +1,33 @@
+{
+    "name": "ryssbowh/craft-file-types",
+    "description": "Define and organise file types in Craft 3.5+",
+    "type": "craft-plugin",
+    "keywords": [
+        "cms",
+        "craftcms",
+        "assets",
+        "file types"
+    ],
+    "version": "1.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "The Web Puzzlers",
+            "homepage": "https://github.com/ryssbowh"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ryssbowh\\FileTypes\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Custom file types",
+        "handle": "file-types",
+        "documentationUrl": "https://github.com/ryssbowh/craft-file-types",
+        "class": "Ryssbowh\\FileTypes\\FileTypes"
+    }
+}

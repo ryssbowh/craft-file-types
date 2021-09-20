@@ -1,0 +1,16 @@
+{% import "_includes/forms" as forms %}
+
+{{ 
+    forms.lightswitchField({
+        label: 'Allow all extensions'|t('file-types'),
+        name: 'allowAllExtensions',
+        on: settings.allowAllExtensions,
+        instructions: 'Allow all defined extensions in Craft config. If this is off, extensions have to be allowed manually in config/general.php, key `allowedFileExtensions`.'|t('file-types'),
+        fieldClass: 'first'
+    }) 
+}}
+<file-types
+    :original-file-types="{{ settings.fileTypes|json_encode }}"
+></file-types>
+<type-modal></type-modal>
+<extension-modal></extension-modal>
