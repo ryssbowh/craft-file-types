@@ -1,4 +1,4 @@
-## Manage your file types and extensions
+## File types plugin for Craft Cms 3.5+
 
 Drap and drop your extensions in file types, create new file types and extensions.  
 Your types will become available to restrict in the Assets field, allowing more control on which files can be uploaded on each field.
