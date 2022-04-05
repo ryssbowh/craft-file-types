@@ -3,7 +3,11 @@ namespace Ryssbowh\FileTypes;
 
 use Ryssbowh\FileTypes\assets\SettingsAssets;
 use Ryssbowh\FileTypes\models\Settings;
+use craft\base\Model;
 use craft\helpers\Assets;
+use craft\helpers\ProjectConfig as ProjectConfigHelper;
+use craft\services\Plugins;
+use craft\services\ProjectConfig;
 use yii\base\Event;
 
 class FileTypes extends \craft\base\Plugin
@@ -16,20 +20,19 @@ class FileTypes extends \craft\base\Plugin
     /**
      * @inheritdoc
      */
-    public $hasCpSettings = true;
+    public bool $hasCpSettings = true;
 
     /**
      * inheritDoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
         self::$plugin = $this;
 
-        $settings = $this->settings;
-
         if (\Craft::$app->plugins->isPluginEnabled('file-types')) {
+            $settings = $this->settings;
             Event::on(Assets::class, Assets::EVENT_REGISTER_FILE_KINDS, function ($e) use ($settings) {
                 $e->fileKinds = $settings->fileTypes;
             });
@@ -63,7 +66,7 @@ class FileTypes extends \craft\base\Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel(): Settings
+    protected function createSettingsModel(): ?Model
     {
         return new Settings();
     }
@@ -71,9 +74,16 @@ class FileTypes extends \craft\base\Plugin
     /**
      * @inheritDoc
      */
-    protected function afterInstall()
+    protected function beforeInstall(): void
     {
-        \Craft::$app->plugins->savePluginSettings($this, ['fileTypes' => Assets::getFileKinds()]);
-        \Craft::$app->plugins->enablePlugin('file-types');
+        Event::on(Plugins::class, Plugins::EVENT_AFTER_INSTALL_PLUGIN, function ($e) {
+            if ($e->plugin->handle == 'file-types') {
+                $settings = ProjectConfigHelper::packAssociativeArrays([
+                    'allowAllExtensions' => false,
+                    'fileTypes' => Assets::getFileKinds()
+                ]);
+                \Craft::$app->getProjectConfig()->set(ProjectConfig::PATH_PLUGINS . '.file-types.settings', $settings);
+            }
+        });
     }
 }
