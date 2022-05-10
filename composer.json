@@ -1,6 +1,6 @@
 {
     "name": "ryssbowh/craft-file-types",
-    "description": "Define and organise file types in Craft 3.5+",
+    "description": "Define and organise file types",
     "type": "craft-plugin",
     "keywords": [
         "cms",
