@@ -1,5 +1,10 @@
 # ryssbowh/craft-file-types Changelog
 
+## 2.0.2 - 2022-05-11
+
+### Fixed
+- Store not picking up version
+
 ## 2.0.1 - 2022-05-10
 
 ### Fixed
