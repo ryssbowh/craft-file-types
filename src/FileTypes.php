@@ -29,18 +29,18 @@ class FileTypes extends \craft\base\Plugin
 
         $settings = $this->settings;
 
-        if (\Craft::$app->plugins->isPluginEnabled('file-types')) {
-            Event::on(Assets::class, Assets::EVENT_REGISTER_FILE_KINDS, function ($e) use ($settings) {
+        Event::on(Assets::class, Assets::EVENT_REGISTER_FILE_KINDS, function ($e) use ($settings) {
+            if ($settings->fileTypes) {
                 $e->fileKinds = $settings->fileTypes;
-            });
-
-            if ($settings->allowAllExtensions) {
-                $extensions = [];
-                foreach ($settings->fileTypes as $type) {
-                    $extensions = array_merge($extensions, $type['extensions']);
-                }
-                \Craft::$app->config->general->allowedFileExtensions = $extensions;
             }
+        });
+
+        if ($settings->fileTypes and $settings->allowAllExtensions) {
+            $extensions = [];
+            foreach ($settings->fileTypes as $type) {
+                $extensions = array_merge($extensions, $type['extensions']);
+            }
+            \Craft::$app->config->general->allowedFileExtensions = $extensions;
         }
 
         \Craft::info('Loaded file types plugin', __METHOD__);
@@ -55,7 +55,8 @@ class FileTypes extends \craft\base\Plugin
         return \Craft::$app->view->renderTemplate(
             'file-types/settings',
             [
-                'settings' => $this->getSettings()
+                'settings' => $this->settings,
+                'fileTypes' => $this->settings->fileTypes ?? Assets::getFileKinds()
             ]
         );
     }
@@ -66,14 +67,5 @@ class FileTypes extends \craft\base\Plugin
     protected function createSettingsModel(): Settings
     {
         return new Settings();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function afterInstall()
-    {
-        \Craft::$app->plugins->savePluginSettings($this, ['fileTypes' => Assets::getFileKinds()]);
-        \Craft::$app->plugins->enablePlugin('file-types');
     }
 }
