@@ -31,19 +31,20 @@ class FileTypes extends \craft\base\Plugin
 
         self::$plugin = $this;
 
-        if (\Craft::$app->plugins->isPluginEnabled('file-types')) {
-            $settings = $this->settings;
-            Event::on(Assets::class, Assets::EVENT_REGISTER_FILE_KINDS, function ($e) use ($settings) {
-                $e->fileKinds = $settings->fileTypes;
-            });
+        $settings = $this->settings;
 
-            if ($settings->allowAllExtensions) {
-                $extensions = [];
-                foreach ($settings->fileTypes as $type) {
-                    $extensions = array_merge($extensions, $type['extensions']);
-                }
-                \Craft::$app->config->general->allowedFileExtensions = $extensions;
+        Event::on(Assets::class, Assets::EVENT_REGISTER_FILE_KINDS, function ($e) use ($settings) {
+            if ($settings->fileTypes) {
+                $e->fileKinds = $settings->fileTypes;
             }
+        });
+
+        if ($settings->fileTypes and $settings->allowAllExtensions) {
+            $extensions = [];
+            foreach ($settings->fileTypes as $type) {
+                $extensions = array_merge($extensions, $type['extensions']);
+            }
+            \Craft::$app->config->general->allowedFileExtensions = $extensions;
         }
 
         \Craft::info('Loaded file types plugin', __METHOD__);
@@ -58,7 +59,8 @@ class FileTypes extends \craft\base\Plugin
         return \Craft::$app->view->renderTemplate(
             'file-types/settings',
             [
-                'settings' => $this->getSettings()
+                'settings' => $this->settings,
+                'fileTypes' => $this->settings->fileTypes ?? Assets::getFileKinds()
             ]
         );
     }
@@ -69,21 +71,5 @@ class FileTypes extends \craft\base\Plugin
     protected function createSettingsModel(): ?Model
     {
         return new Settings();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function beforeInstall(): void
-    {
-        Event::on(Plugins::class, Plugins::EVENT_AFTER_INSTALL_PLUGIN, function ($e) {
-            if ($e->plugin->handle == 'file-types') {
-                $settings = ProjectConfigHelper::packAssociativeArrays([
-                    'allowAllExtensions' => false,
-                    'fileTypes' => Assets::getFileKinds()
-                ]);
-                \Craft::$app->getProjectConfig()->set(ProjectConfig::PATH_PLUGINS . '.file-types.settings', $settings);
-            }
-        });
     }
 }
