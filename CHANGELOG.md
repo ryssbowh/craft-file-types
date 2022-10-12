@@ -1,5 +1,9 @@
 # ryssbowh/craft-file-types Changelog
 
+## 2.0.4 - 2022-10-12
+### Changed
+- Changed plugin icon
+
 ## 2.0.3 - 2022-08-28
 ### Fixed
 - Fixed installation issue
