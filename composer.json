@@ -27,8 +27,8 @@
         "name": "Custom file types",
         "handle": "file-types",
         "developer": "The Web Puzzlers",
-        "developerUrl": "https://github.com/ryssbowh",
-        "documentationUrl": "https://github.com/ryssbowh/craft-file-types",
+        "developerUrl": "https://puzzlers.run",
+        "documentationUrl": "https://puzzlers.run/plugins/custom-file-types",
         "class": "Ryssbowh\\FileTypes\\FileTypes"
     }
 }
