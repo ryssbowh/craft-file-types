@@ -27,8 +27,8 @@
         "name": "Custom file types",
         "handle": "file-types",
         "developer": "The Web Puzzlers",
-        "developerUrl": "https://puzzlers.run",
-        "documentationUrl": "https://puzzlers.run/plugins/custom-file-types",
+        "developerUrl": "https://www.webpuzzlers.co.uk",
+        "documentationUrl": "https://www.webpuzzlers.co.uk/plugins/custom-file-types",
         "class": "Ryssbowh\\FileTypes\\FileTypes"
     }
 }

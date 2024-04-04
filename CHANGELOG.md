@@ -1,5 +1,11 @@
 # ryssbowh/craft-file-types Changelog
 
+## 2.0.6 - 2024-04-04
+
+### Changed
+
+- Updated documentation urls
+
 ## 2.0.5 - 2022-11-17
 
 ### Changed

@@ -9,4 +9,4 @@ Your types will become available to restrict in the Assets field, allowing more 
 
 ## Documentation
 
-[Plugin documentation](https://puzzlers.run/plugins/custom-file-types/all)
+[Plugin documentation](https://www.webpuzzlers.co.uk/plugins/custom-file-types/all)
